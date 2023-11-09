@@ -1,1 +1,1 @@
-# dynamic-chat-app
+# Dynamic Chat App
