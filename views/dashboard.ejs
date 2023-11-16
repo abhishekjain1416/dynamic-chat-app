@@ -69,6 +69,8 @@
 
             $('.start-head').hide();
             $('.chat-section').show();
+
+            socket.emit('existsChats', {sender_id:sender_id, receiver_id:receiver_id});
         });
     });
 
@@ -123,4 +125,31 @@
             $('#chat-container').append(html);
         }
     })
+
+    // Load old chats from MongoDB
+    socket.on('loadChats', function(data){
+        $('#chat-container').html('');
+
+        var chats = data.chats;
+
+        let html = '';
+
+        for(let x=0; x<chats.length; x++){
+            if(sender_id == chats[x]['sender_id']){
+                html += `
+                <div class="current-user-chat">
+                    `+chats[x]['message']+`
+                </div>
+                `;
+            }
+            if(sender_id == chats[x]['receiver_id']){
+                html += `
+                <div class="distance-user-chat">
+                    `+chats[x]['message']+`
+                </div>
+                `;
+            }
+        }
+        $('#chat-container').append(html);
+    });
 </script>
