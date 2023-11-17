@@ -106,6 +106,7 @@
                     </div>
                     `;
                     $('#chat-container').append(html);
+                    scrollChat();
                     socket.emit('newChat', response.data);
                 }
                 else {
@@ -123,6 +124,7 @@
             </div>
             `;
             $('#chat-container').append(html);
+            scrollChat();
         }
     })
 
@@ -151,5 +153,12 @@
             }
         }
         $('#chat-container').append(html);
+        scrollChat();
     });
+
+    function scrollChat(){
+        $('#chat-container').animate({
+            scrollTop:$('#chat-container').offset().top + $('#chat-container')[0].scrollHeight
+        },0);
+    }
 </script>
