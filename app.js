@@ -49,6 +49,11 @@ usp.on('connection', async function(socket){
 
         socket.emit('loadChats', { chats: chats });
     });
+
+    // Delete chat
+    socket.on('chatDeleted', function(id){
+        socket.broadcast.emit('chatMessageDeleted', id);
+    });
 });
 
 http.listen(3000,function(){
