@@ -51,6 +51,31 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteChatModal" tabindex="-1" role="dialog" aria-labelledby="deleteChatModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteChatModalLongTitle">Delete Chat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <form id="delete-chat-form">
+            <div class="modal-body">
+                <input type="text" name="id" id="delete-message-id">
+                <p>Are you sure you want to delete the below message?</p>
+                <p><b id="delete-message"></b></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
 <%- include('layouts/footer.ejs') %>
 
 <script>
@@ -103,6 +128,7 @@
                     let html = `
                     <div class="current-user-chat">
                         `+chat+`
+                        <i class="fa fa-trash" aria-hidden="true"></i>
                     </div>
                     `;
                     $('#chat-container').append(html);
@@ -139,14 +165,15 @@
         for(let x=0; x<chats.length; x++){
             if(sender_id == chats[x]['sender_id']){
                 html += `
-                <div class="current-user-chat">
+                <div class="current-user-chat" id="`+chat[x]['_id']+`">
                     `+chats[x]['message']+`
+                    <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
                 `;
             }
             if(sender_id == chats[x]['receiver_id']){
                 html += `
-                <div class="distance-user-chat">
+                <div class="distance-user-chat" id="`+chat[x]['_id']+`">
                     `+chats[x]['message']+`
                 </div>
                 `;
