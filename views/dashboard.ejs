@@ -76,6 +76,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="editChatModal" tabindex="-1" role="dialog" aria-labelledby="editChatModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editChatModalLongTitle">Edit Chat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <form id="update-chat-form">
+            <div class="modal-body">
+                <input type="hidden" name="id" id="edit-message-id">
+                <input type="text" name="message" id="edit-message" placeholder="Enter Message" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Save</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
 <%- include('layouts/footer.ejs') %>
 
 <script>
@@ -127,7 +151,10 @@
                     let chat = response.data.message;
                     let html = `
                     <div class="current-user-chat" id="`+response.data._id+`">
-                        `+chat+`
+                        <span>`+chat+`</span>
+                        <i class="fa fa-edit" aria-hidden="true" data-id="`+response.data._id+`" data-msg="`+chat+`"
+                            data-toggle="modal" data-target="#editChatModal">
+                        </i>
                         <i class="fa fa-trash" aria-hidden="true" data-id="`+response.data._id+`"
                             data-toggle="modal" data-target="#deleteChatModal">
                         </i>
@@ -148,7 +175,7 @@
         if(sender_id == data.receiver_id && receiver_id == data.sender_id){
             let html = `
             <div class="distance-user-chat" id="`+data._id+`">
-                `+data.message+`
+                <span>`+data.message+`<span>
             </div>
             `;
             $('#chat-container').append(html);
@@ -168,7 +195,10 @@
             if(sender_id == chats[x]['sender_id']){
                 html += `
                 <div class="current-user-chat" id="`+chats[x]['_id']+`">
-                    `+chats[x]['message']+`
+                    <span>`+chats[x]['message']+`</span>
+                    <i class="fa fa-edit" aria-hidden="true" data-id="`+chats[x]['_id']+`" data-msg="`+chats[x]['message']+`"
+                        data-toggle="modal" data-target="#editChatModal">
+                    </i>
                     <i class="fa fa-trash" aria-hidden="true" data-id="`+chats[x]['_id']+`"
                         data-toggle="modal" data-target="#deleteChatModal">
                     </i>
@@ -178,7 +208,7 @@
             if(sender_id == chats[x]['receiver_id']){
                 html += `
                 <div class="distance-user-chat" id="`+chats[x]['_id']+`">
-                    `+chats[x]['message']+`
+                    <span>`+chats[x]['message']+`</span>
                 </div>
                 `;
             }
@@ -221,7 +251,42 @@
     });
 
     socket.on('chatMessageDeleted', function(id){
-        console.log(id);
         $('#'+id).remove();
     });
+
+    // Update user chat functionality
+    $(document).on('click', '.fa-edit', function(){
+        $('#edit-message-id').val( $(this).attr('data-id') );
+        $('#edit-message').val( $(this).attr('data-msg') );
+    });
+
+    $('#update-chat-form').submit(function(event){
+        event.preventDefault();
+
+        var id = $('#edit-message-id').val();
+        var msg = $('#edit-message').val();
+
+        $.ajax({
+            url:'/update-chat',
+            type:'POST',
+            data:{id:id, message:msg},
+            success:function(response){
+                if(response.success){
+                    $('#editChatModal').modal('hide');
+                    $('#'+id).find('span').text(msg);
+                    $('#'+id).find('.fa-edit').attr('data-msg',msg);
+                    socket.emit('chatUpdated',{ id:id, message:msg });
+                }
+                else
+                    alert(response.msg);
+            }
+        });
+    });
+
+    socket.on('chatMessageUpdated', function(data){
+        let id = data.id;
+        let msg = data.message;
+        $('#'+id).find('span').text(msg);
+        $('#'+id).find('.fa-edit').attr('data-msg',msg);
+    })
 </script>
