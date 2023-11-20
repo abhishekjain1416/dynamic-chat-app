@@ -18,6 +18,8 @@ Welcome to the Chat Application repository! This application allows users to reg
 
 7. **Chat Updates:** Users can update their chats, ensuring a dynamic and interactive conversation experience.
 
+8. **Delete Chat Messages:** Users can delete their own chat messages.
+
 ## Technologies Used
 
 - Node.js
