@@ -60,6 +60,7 @@ const login = async(req,res)=>{
 
             if(passwordMatch == true){
                 req.session.user = userData;
+                res.cookie('user',JSON.stringify(userData));
                 res.redirect('/dashboard');
             }
             else
@@ -78,6 +79,7 @@ const logout = async(req,res)=>{
     try{
 
         req.session.destroy();
+        res.clearCookie('user');
         res.redirect('/');
 
     } catch(error) {
