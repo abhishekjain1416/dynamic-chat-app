@@ -6,6 +6,49 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createGroupModalCenter">
         Create Group
     </button>
+
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>S No</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Limit</th>
+                <th>Members</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                if(groups.length > 0){
+                    for(let i=0; i<groups.length; i++){
+                        %>
+                        <tr>
+                            <td><%= i+1 %></td>
+                            <td>
+                                <img src="http://localhost:3000/<%= groups[i]['image'] %>"
+                                    alt="<%= groups[i]['image'] %>" width="100px" height="100px">
+                            </td>
+                            <td><%= groups[i]['name'] %></td>
+                            <td><%= groups[i]['limit'] %> Members</td>
+                            <td>
+                                <a href="#">Members</a>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <%
+                    }
+                }
+                else{
+                    %>
+                    <tr>
+                        <th>No Groups Found!</th>
+                    </tr>
+                    <%
+                }
+            %>
+        </tbody>
+    </table>
     
     <!-- Modal -->
     <div class="modal fade" id="createGroupModalCenter" tabindex="-1" role="dialog" aria-labelledby="createGroupModalCenterTitle" aria-hidden="true">
