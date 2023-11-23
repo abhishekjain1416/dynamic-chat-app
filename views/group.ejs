@@ -1,0 +1,49 @@
+<%- include('layouts/header.ejs') %>
+
+<div class="container">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createGroupModalCenter">
+        Create Group
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="createGroupModalCenter" tabindex="-1" role="dialog" aria-labelledby="createGroupModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="createGroupModalLongTitle">Create Group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+
+            <form action="" enctype="multipart/form-data" method="POST">
+                <div class="modal-body">
+                    
+                    <input type="text" name="name" class="w-100 mb-2" placeholder="Enter Group Name" required>
+                    <input type="file" name="image" class="w-100 mb-2" required>
+                    <input type="number" min="1" name="limit" class="w-100 mb-2" placeholder="Enter User Limit" required>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+
+        </div>
+        </div>
+    </div>
+
+    <%
+        if(typeof message !== 'undefined') {
+            %>
+                <p style="color:green"><%= message %></p>
+            <%
+        }  
+    %>
+
+</div>
+
+<%- include('layouts/footer.ejs') %>
