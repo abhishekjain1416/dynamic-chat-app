@@ -239,13 +239,13 @@ $('.addMember').click(function(){
 								<input type="checkbox" name="members[]" value="`+users[i]['_id']+`">
 							</td>
 							<td>
-								`+users[i]['_id']+`
+								`+users[i]['name']+`
 							</td>
 						</tr>
 					`;
 				}
 
-				$('.addMemberTable').html(html);
+				$('.addMembersInTable').html(html);
 			}
 			else{
 				alert(response.message);
