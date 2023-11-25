@@ -53,6 +53,8 @@ user_route.post('/update-chat', userController.updateChat);
 user_route.get('/groups', auth.isLogin, userController.loadGroups);
 user_route.post('/groups', upload.single('image'), userController.createGroup);
 
+user_route.get('/get-members',auth.isLogin, userController.getMembers);
+
 user_route.get('*', function(req,res){
     res.redirect('/');
 })

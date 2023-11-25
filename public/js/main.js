@@ -213,3 +213,43 @@ socket.on('chatMessageUpdated', function(data){
 	$('#'+id).find('span').text(msg);
 	$('#'+id).find('.fa-edit').attr('data-msg',msg);
 })
+
+$('.addMember').click(function(){
+
+	let groupId = $(this).attr('data-id');
+	let groupLimit = $(this).attr('data-limit');
+
+	$('#group_id').val(groupId);
+	$('#group_limit').val(groupLimit);
+
+	$.ajax({
+		url:'/get-members',
+		type:'GET',
+		data:{group_id: groupId, group_limit: groupLimit},
+		success: function(response)
+		{
+			if(response.success){
+				let users = response.data;
+				let html = '';
+
+				for(let i=0;i<users.length;i++){
+					html += `
+						<tr>
+							<td>
+								<input type="checkbox" name="members[]" value="`+users[i]['_id']+`">
+							</td>
+							<td>
+								`+users[i]['_id']+`
+							</td>
+						</tr>
+					`;
+				}
+
+				$('.addMemberTable').html(html);
+			}
+			else{
+				alert(response.message);
+			}
+		}
+	});
+});
