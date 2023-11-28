@@ -266,10 +266,16 @@ $('#add-member-form').submit(function(event){
 		data: formData,
 		success: function(response){
 			if(response.success){
-				console.log(response.msg);
+				$('#membersModal').modal('hide');
+				$('#add-member-form')[0].reset();
+				alert(response.msg);
 			}
 			else{
 				$('#add-member-error').text(response.msg);
+
+				setTimeout(()=>{
+					$('#add-member-error').text('');
+				},3000);
 			}
 		}
 	});

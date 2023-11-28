@@ -199,6 +199,20 @@ const addMembers = async(req,res)=>{
             res.status(200).send({ success:false, msg: "You cannot select more than "+req.body.group_limit+" members!" });
         }
         else{
+            let data = [];
+            const members = req.body.members;
+
+            await Member.deleteMany({ group_id: req.body.group_id });
+
+            for(let i=0;i<members.length;i++){
+                data.push({
+                    group_id: req.body.group_id,
+                    user_id: req.body.members[i]
+                });
+            }
+
+            await Member.insertMany(data);
+
             res.status(200).send({ success:true, msg: "Members added successfully!" });
         }
 
