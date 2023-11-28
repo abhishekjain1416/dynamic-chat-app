@@ -253,3 +253,24 @@ $('.addMember').click(function(){
 		}
 	});
 });
+
+// add member form submit
+$('#add-member-form').submit(function(event){
+	event.preventDefault();
+
+	let formData = $(this).serialize();
+
+	$.ajax({
+		url: "/add-members",
+		type: "POST",
+		data: formData,
+		success: function(response){
+			if(response.success){
+				console.log(response.msg);
+			}
+			else{
+				$('#add-member-error').text(response.msg);
+			}
+		}
+	});
+});
