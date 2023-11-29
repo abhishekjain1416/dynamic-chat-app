@@ -18,6 +18,10 @@
 
 })(jQuery);
 
+/**
+ * This function retrieves the value of a cookie by its name from the document's cookies.
+ * @param {*} name : The name of the cookie to retrieve.
+ */
 function getCookie(name) {
 	let matches = document.cookie.match(new RegExp(
 		"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -107,7 +111,9 @@ socket.on('loadNewChat', function(data){
 	}
 })
 
-// Load old chats from MongoDB
+/**
+ * Load old chats (all one-to-one chats) from MongoDB
+ */
 socket.on('loadChats', function(data){
 	$('#chat-container').html('');
 
@@ -147,7 +153,9 @@ function scrollChat(){
 	},0);
 }
 
-// delete chats
+/**
+ * Delete chat message
+ */
 $(document).on('click', '.fa-trash', function(){
 	let msg = $(this).parent().text();
 	$('#delete-message').text(msg);
@@ -178,12 +186,17 @@ socket.on('chatMessageDeleted', function(id){
 	$('#'+id).remove();
 });
 
-// Update user chat functionality
+/**
+ * Update user chat functionality
+ */
 $(document).on('click', '.fa-edit', function(){
 	$('#edit-message-id').val( $(this).attr('data-id') );
 	$('#edit-message').val( $(this).attr('data-msg') );
 });
 
+/**
+ * Edit chat message
+ */
 $('#update-chat-form').submit(function(event){
 	event.preventDefault();
 
@@ -254,10 +267,13 @@ $('.addMember').click(function(){
 	});
 });
 
-// add member form submit
+/**
+ * Add members form
+ */
 $('#add-member-form').submit(function(event){
 	event.preventDefault();
 
+	// Serialize the form data into a URL-encoded string
 	let formData = $(this).serialize();
 
 	$.ajax({

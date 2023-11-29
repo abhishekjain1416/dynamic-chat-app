@@ -4,6 +4,10 @@ const Group = require('../models/groupModel');
 const Member = require('../models/memberModel');
 const bcrypt = require('bcrypt');
 
+/**
+ * Registration of a new user
+ */
+
 const registerLoad = async(req,res)=>{
 
     try {
@@ -18,7 +22,10 @@ const registerLoad = async(req,res)=>{
 const register = async(req,res)=>{
 
     try {
-        
+        /**
+         * One-way hash function to encrypt passwords.
+         * Difficult for attackers to reverse engineer the original password from the stored hash.
+         */
         const passwordHash = await bcrypt.hash(req.body.password,10);
 
         const user = new User({
@@ -37,6 +44,10 @@ const register = async(req,res)=>{
     }
 }
 
+/**
+ * Login and logout by user
+ */
+
 const loadLogin = async(req,res)=>{
 
     try{
@@ -51,15 +62,17 @@ const loadLogin = async(req,res)=>{
 const login = async(req,res)=>{
 
     try{
-
+        // Extract email and password from the request body
         const email = req.body.email;
         const password = req.body.password;
 
         const userData = await User.findOne({ email:email });
 
         if(userData){
+            // Compare the provided password with the hashed password stored in the database
             const passwordMatch = await bcrypt.compare(password, userData.password);
 
+            // If the passwords match, set user data in the session and a cookie, then redirect to the dashboard
             if(passwordMatch == true){
                 req.session.user = userData;
                 res.cookie('user',JSON.stringify(userData));
@@ -88,6 +101,10 @@ const logout = async(req,res)=>{
         console.log(error.message);
     }
 }
+
+/**
+ * One-to-one chats
+ */
 
 const loadDashboard = async(req,res)=>{
 
@@ -146,6 +163,10 @@ const updateChat = async(req,res)=>{
     }
 }
 
+/**
+ * Group chats
+ */
+
 const loadGroups = async(req,res)=>{
     try{
 
@@ -176,6 +197,10 @@ const createGroup = async(req,res)=>{
         res.render('group', {message: error.message});
     }
 }
+
+/**
+ * Group members
+ */
 
 const getMembers = async(req,res)=>{
     try{
