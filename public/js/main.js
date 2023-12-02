@@ -237,7 +237,7 @@ $('.addMember').click(function(){
 
 	$.ajax({
 		url:'/get-members',
-		type:'GET',
+		type:'POST',
 		data:{group_id: groupId, group_limit: groupLimit},
 		success: function(response)
 		{
@@ -246,10 +246,13 @@ $('.addMember').click(function(){
 				let html = '';
 
 				for(let i=0;i<users.length;i++){
+					let isMemberOfGroup = users[i]['member'].length > 0 ? true : false;
+
 					html += `
 						<tr>
 							<td>
-								<input type="checkbox" name="members[]" value="`+users[i]['_id']+`">
+								<input type="checkbox" `+ (isMemberOfGroup ? 'checked' : '') +` 
+									name="members[]" value="`+users[i]['_id']+`">
 							</td>
 							<td>
 								`+users[i]['name']+`
@@ -261,7 +264,7 @@ $('.addMember').click(function(){
 				$('.addMembersInTable').html(html);
 			}
 			else{
-				alert(response.message);
+				alert(response.msg);
 			}
 		}
 	});

@@ -3,6 +3,7 @@ const Chat = require('../models/chatModel');
 const Group = require('../models/groupModel');
 const Member = require('../models/memberModel');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 
 /**
  * Registration of a new user
@@ -204,8 +205,49 @@ const createGroup = async(req,res)=>{
 
 const getMembers = async(req,res)=>{
     try{
+        // Check if the 'group_id' is missing in the request body.
+        if (!req.body.group_id) {
+            return res.status(200).send({ success: false, msg: "Missing group_id in the request body." });
+        }
 
-        const users = await User.find({ _id: {$nin:[req.session.user._id]} });
+        // Check if the user session or user ID is invalid.
+        if (!req.session.user || !req.session.user._id) {
+            return res.status(200).send({ success: false, msg: "Invalid session user or user ID." });
+        }
+
+        // Use the aggregate method to perform a MongoDB aggregation on the User collection.
+        const users = await User.aggregate([
+            {
+                // Perform a lookup to get members associated with the user.
+                $lookup: {
+                    from: "members",
+                    localField: "_id",
+                    foreignField: "user_id",
+                    pipeline: [
+                        {
+                            // Match members based on the provided group_id.
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$group_id", new mongoose.Types.ObjectId(req.body.group_id)] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    // Store the result in the 'member' field.
+                    as: "member"
+                }
+            },
+            // Filter out the current user from the result using $nin (not in).
+            {
+                $match: {
+                    "_id": {
+                        $nin: [new mongoose.Types.ObjectId(req.session.user._id)]
+                    }
+                }
+            }
+        ]);
 
         res.status(200).send({ success:true, data: users });
 
