@@ -20,6 +20,10 @@ Welcome to the Chat Application repository! This application allows users to reg
 
 8. **Delete Chat Messages:** Users can delete their own chat messages.
 
+9. **Create Groups:** Users can create groups by providing group name,image, and members limit.
+
+10. **Add, Update, and Delete Members in Group:** Users can manage group membership, including adding, updating, and deleting members.
+
 ## Technologies Used
 
 - Node.js
