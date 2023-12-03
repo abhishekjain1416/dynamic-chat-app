@@ -299,3 +299,14 @@ $('#add-member-form').submit(function(event){
 		}
 	});
 });
+
+/**
+ * Update Group form
+ */
+$('.updateGroup').click(function(){
+	const groupDetails = JSON.parse($(this).attr('data-obj'));
+	$('#group-id').val(groupDetails._id);
+	$('#old-group-limit').val(groupDetails.limit);
+	$('#group-name').val(groupDetails.name);
+	$('#group-limit').val(groupDetails.limit);
+});

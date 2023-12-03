@@ -36,7 +36,12 @@
                                     data-limit="<%= groups[i]['limit'] %>" data-toggle="modal"
                                     data-target="#membersModal">Members</a>
                             </td>
-                            <td></td>
+                            <td>
+                                <a class="updateGroup" data-obj="<%= JSON.stringify(groups[i]) %>"
+                                    data-toggle="modal" data-target="#updateGroupModal">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
                         </tr>
                         <%
                     }
@@ -74,6 +79,36 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+
+        </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateGroupModal" tabindex="-1" role="dialog" aria-labelledby="updateGroupModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="updateGroupModalLongTitle">Update Group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+
+            <form action="" enctype="multipart/form-data" method="POST" id="updateChatGroupForm">
+                <div class="modal-body">
+
+                    <input type="hidden" name="id" id="group-id">
+                    <input type="hidden" name="old-group-limit" id="old-group-limit">
+                    <input type="text" name="name" id="group-name" class="w-100 mb-2" placeholder="Enter Group Name" required>
+                    <input type="file" name="image" class="w-100 mb-2">
+                    <input type="number" min="1" name="limit" id="group-limit" class="w-100 mb-2" placeholder="Enter User Limit" required>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
 
