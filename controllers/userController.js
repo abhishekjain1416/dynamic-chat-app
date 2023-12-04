@@ -202,11 +202,27 @@ const createGroup = async(req,res)=>{
 const updateGroup = async(req,res)=>{
     try{
 
+        // If the number of members is greater than the new group limit, inform the user to remove members first.
+        if(req.body.limit < req.body.old_limit){
+            const membersCount = await Member.countDocuments({ group_id: req.body.id });
+
+            if(membersCount > req.body.limit)
+                return res.status(200).send({ success:false, msg:"Please remove members before reducing the limit." });
+        }
+
+        // If the number of members is less than the new group limit, proceed.
         let updateObj;
 
         if(req.file == undefined){
             updateObj = {
                 name: req.body.name,
+                limit: req.body.limit
+            };
+        }
+        else{
+            updateObj = {
+                name: req.body.name,
+                image: 'images/'+req.file.filename,
                 limit: req.body.limit
             };
         }
@@ -300,7 +316,7 @@ const addMembers = async(req,res)=>{
 
             await Member.insertMany(data);
 
-            res.status(200).send({ success:true, msg: "Members added successfully!" });
+            res.status(200).send({ success:true, msg: "Members updated successfully!" });
         }
 
     } catch(error) {

@@ -314,16 +314,17 @@ $('.updateGroup').click(function(){
 $('#update-group-form').submit(function(event){
 	event.preventDefault();
 
-	// Serialize the form data into a URL-encoded string
-	let formData = $(this).serialize();
-
 	$.ajax({
 		url:'/update-group',
 		type:'POST',
-		data: formData,
+		data: new FormData(this),
+		contentType: false,
+		cache: false,
+		processData: false,
 		success:function(response){
 			if(response.success){
 				$('#updateGroupModal').modal('hide');
+				location.reload();
 			}
 			else{
 				alert(response.msg);

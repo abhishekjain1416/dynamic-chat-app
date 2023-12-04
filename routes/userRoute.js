@@ -68,7 +68,7 @@ user_route.post('/update-chat', userController.updateChat);
 // Groups
 user_route.get('/groups', auth.isLogin, userController.loadGroups);
 user_route.post('/groups', upload.single('image'), userController.createGroup);
-user_route.post('/update-group', auth.isLogin, userController.updateGroup);
+user_route.post('/update-group', upload.single('image'), userController.updateGroup);
 
 // Group members
 user_route.post('/get-members',auth.isLogin, userController.getMembers);
