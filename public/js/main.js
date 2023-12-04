@@ -310,3 +310,24 @@ $('.updateGroup').click(function(){
 	$('#group-name').val(groupDetails.name);
 	$('#group-limit').val(groupDetails.limit);
 });
+
+$('#update-group-form').submit(function(event){
+	event.preventDefault();
+
+	// Serialize the form data into a URL-encoded string
+	let formData = $(this).serialize();
+
+	$.ajax({
+		url:'/update-group',
+		type:'POST',
+		data: formData,
+		success:function(response){
+			if(response.success){
+				$('#updateGroupModal').modal('hide');
+			}
+			else{
+				alert(response.msg);
+			}
+		}
+	});
+});

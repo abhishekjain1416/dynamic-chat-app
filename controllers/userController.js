@@ -199,6 +199,26 @@ const createGroup = async(req,res)=>{
     }
 }
 
+const updateGroup = async(req,res)=>{
+    try{
+
+        let updateObj;
+
+        if(req.file == undefined){
+            updateObj = {
+                name: req.body.name,
+                limit: req.body.limit
+            };
+        }
+
+        await Group.findByIdAndUpdate({ _id: req.body.id },{ $set: updateObj });
+        res.status(200).send({ success:true, msg:"Group updated successfully." });
+
+    } catch (error) {
+        res.status(400).send({ success: false, msg: error.message });
+    }
+}
+
 /**
  * Group members
  */
@@ -300,6 +320,7 @@ module.exports = {
     updateChat,
     loadGroups,
     createGroup,
+    updateGroup,
     getMembers,
     addMembers,
 }
