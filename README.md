@@ -37,13 +37,14 @@ Welcome to the Chat Application repository! This application allows users to reg
 - Bcrypt
 - Dotenv
 - EJS (Embedded JavaScript)
+- Cookie Parser
 
 ## Getting Started
 
 1. Install dependencies:
 ~~~
 npm init -y
-npm install express mongodb mongoose multer express-session body-parser bcrypt dotenv ejs socket.io
+npm install express mongodb mongoose multer express-session body-parser bcrypt dotenv ejs socket.io cookie-parser
 ~~~
 2. Set up MongoDB. Create a MongoDB database.
 3. Create a .env file and configure environment variables (e.g., SESSION_SECRET, MONGODB_URI).
