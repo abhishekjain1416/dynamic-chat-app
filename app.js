@@ -1,8 +1,9 @@
 require('dotenv').config();
+const { MONGODB_URI, MONGODB_DATABASE } = process.env;
 
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/dynamic-chat-app');
+mongoose.connect(MONGODB_URI + MONGODB_DATABASE);
 
 const express = require('express');
 
