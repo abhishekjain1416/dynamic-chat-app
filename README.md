@@ -55,5 +55,22 @@ npm start
 ~~~
 The application will be accessible at http://localhost:3000.
 
+## Configuration
+
+### Environment Variables
+To run this project, you need to set up the following environment variables. Create a .env file in the root of the project and add the necessary values.
+~~~
+/**
+ * Session Information
+ */
+SESSION_SECRET='thisismysessionsecret'
+
+/**
+ * Database Credentials
+ */
+MONGODB_URI='mongodb://127.0.0.1:27017/'
+MONGODB_DATABASE='dynamic-chat-app'
+~~~
+
 ## Contributing
 Feel free to contribute to the project by opening issues or submitting pull requests.
