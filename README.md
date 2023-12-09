@@ -24,7 +24,7 @@ Welcome to the Chat Application repository! This application allows users to reg
 
 10. **Add, Update, and Delete Members in Group:** Users can manage group membership, including adding, updating, and deleting members.
 
-## Technologies Used
+## Packages Used
 
 - Node.js
 - Socket.IO
